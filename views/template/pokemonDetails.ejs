@@ -1,0 +1,26 @@
+<div>
+    <h5>Abilities:</h5>
+    <ul>
+        <% pokemon.abilities.forEach(function(ability) { %>
+            <li>
+                <%= ability.ability.name %>
+            </li>
+            <% }); %>
+    </ul>
+    <h5>Stats:</h5>
+    <ul>
+        <% pokemon.stats.forEach(function(stat) { %>
+            <li>
+                <%= stat.stat.name %>: <%= stat.base_stat %>
+            </li>
+            <% }); %>
+    </ul>
+    <h5>Types:</h5>
+    <ul>
+        <% pokemon.types.forEach(function(type) { %>
+            <li>
+                <%= type.type.name %>
+            </li>
+            <% }); %>
+    </ul>
+</div>
