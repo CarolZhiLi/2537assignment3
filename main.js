@@ -19,25 +19,35 @@ app.get("/", async (req, res) => {
     //fetch type
     const typesResponse = await axios.get("https://pokeapi.co/api/v2/type");
     const types = typesResponse.data.results.map((type) => type.name);
-    console.log(types);
+    //console.log(types);
 
     let pokemons = [];
-    if (selectedTypes && selectedTypes.length > 0) {
-      const typeArray = Array.isArray(selectedTypes)
-        ? selectedTypes
-        : [selectedTypes];
-      const promises = typeArray.map((type) =>
+    if (selectedTypes.length > 0) {
+      const typePromises = selectedTypes.map(type =>
         axios.get(`https://pokeapi.co/api/v2/type/${type}`)
       );
-      const responses = await Promise.all(promises);
-      const typePokemonsPromises = responses.flatMap((response) =>
-        response.data.pokemon.map((p) => axios.get(p.pokemon.url))
+      const typeResponses = await Promise.all(typePromises);
+      const typePokemons = typeResponses.map(response => response.data.pokemon.map(p => p.pokemon.name));
+
+      // Intersection of all arrays
+      const commonPokemons = typePokemons.reduce((acc, cur) => 
+        acc.filter(name => cur.includes(name))
       );
-      const pokemonDetails = await Promise.all(typePokemonsPromises);
-      pokemons = pokemonDetails.map((detail) => ({
+
+      // Fetch details for the common Pokémon
+      const pokemonDetailsPromises = commonPokemons.map(pokemonName =>
+        axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+      );
+      const pokemonDetailsResponses = await Promise.all(pokemonDetailsPromises);
+      pokemons = pokemonDetailsResponses.map(detail => ({
+        id: detail.data.id,
         name: detail.data.name,
         imageUrl: detail.data.sprites.front_default,
       }));
+    
+
+    console.log(pokemons); 
+
     } else {
       //all the pokemon
       const response = await axios.get(
@@ -52,6 +62,8 @@ app.get("/", async (req, res) => {
         name: pokemonResponse.data.name,
         imageUrl: pokemonResponse.data.sprites.front_default,
       }));
+      console.log(pokemons);
+      console.log(pokemons[1].imageUrl);
     }
 
       //console.log(pokemons);
@@ -80,10 +92,12 @@ app.get("/", async (req, res) => {
 });
 
 app.get('/pokemon-details/:id', async (req, res) => {
+    console.log("Requested Pokémon ID:", req.params.id);
     try {
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${req.params.id}`);
+      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${req.params.id}/`);
       const pokemon = response.data;
-  
+      console.log(pokemon);
+      console.log(pokemon.sprites.front_default);
       
       res.render('template/pokemonDetails.ejs', {
         pokemon: pokemon});

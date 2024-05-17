@@ -1,5 +1,12 @@
 <div>
-    <h5>Abilities:</h5>
+
+    <h4><%= pokemon.name %></h4>
+    <p><%= pokemon.id %></p>
+   
+    <img src="<%= pokemon.sprites.front_default %>" width="300">
+    
+
+    <p>Abilities:</p>
     <ul>
         <% pokemon.abilities.forEach(function(ability) { %>
             <li>
@@ -7,7 +14,7 @@
             </li>
             <% }); %>
     </ul>
-    <h5>Stats:</h5>
+    <p>Stats:</p>
     <ul>
         <% pokemon.stats.forEach(function(stat) { %>
             <li>
@@ -15,7 +22,7 @@
             </li>
             <% }); %>
     </ul>
-    <h5>Types:</h5>
+    <p>Types:</p>
     <ul>
         <% pokemon.types.forEach(function(type) { %>
             <li>

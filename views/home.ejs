@@ -19,14 +19,18 @@
 
 <nav aria-label="Page navigation example" class="mt-5">
   <ul class="pagination justify-content-center">
-    <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
-      <a class="page-link" href="<%= currentPage > 1 ? '/?page=' + (currentPage - 1) : '#' %>">Previous</a>
-    </li>
+
+    <% let existingQuery = selectedTypes.map(a=> `type-${a}=${a}`).join('&') %>
+    <% if (currentPage > 1) { %>
+      <li class="page-item">
+        <a class="page-link" href="/?page=<%= currentPage - 1 %>&<%= existingQuery %>">Previous</a>
+      </li>
+    <% } %>
 
 
     <% let startPage = Math.max(1, currentPage - 2); %>
     <% let endPage = Math.min(startPage + 4, totalPages); %>
-    <% let existingQuery = selectedTypes.map(a=> `type-${a}=${a}`).join('&') %>
+    
     <% if (endPage - startPage < 4) { %>
     <% startPage = Math.max(1, endPage - 4); %>
     <% } %>
@@ -35,17 +39,14 @@
     <% } %>
 
     <% if (currentPage < totalPages) { %>
-    <li class="page-item">
-      <a class="page-link" href="/?page=<%= currentPage + 1 %>&<%= existingQuery %>">Next</a>
-    </li>
-    <% } else { %>
-        <li class="page-item disabled">
-            <a class="page-link" href="#">Next</a>
-        </li>
+      <li class="page-item">
+        <a class="page-link" href="/?page=<%= currentPage + 1 %>&<%= existingQuery %>">Next</a>
+      </li>
     <% } %>
   </ul>
 </nav>
 </form>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const modalElement = document.getElementById('pokemonModal');
@@ -72,7 +73,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="pokemonModalLabel">Pokémon Details</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="pokemonDetailsContent">
             </div>
