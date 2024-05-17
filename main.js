@@ -33,7 +33,6 @@ app.get("/", async (req, res) => {
       const commonPokemons = typePokemons.reduce((acc, cur) => 
         acc.filter(name => cur.includes(name))
       );
-
       // Fetch details for the common Pokémon
       const pokemonDetailsPromises = commonPokemons.map(pokemonName =>
         axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
@@ -43,10 +42,8 @@ app.get("/", async (req, res) => {
         id: detail.data.id,
         name: detail.data.name,
         imageUrl: detail.data.sprites.front_default,
-      }));
-    
-
-    console.log(pokemons); 
+      }));    
+    //console.log(pokemons); 
 
     } else {
       //all the pokemon
@@ -62,20 +59,20 @@ app.get("/", async (req, res) => {
         name: pokemonResponse.data.name,
         imageUrl: pokemonResponse.data.sprites.front_default,
       }));
-      console.log(pokemons);
-      console.log(pokemons[1].imageUrl);
+      //console.log(pokemons);
+      //console.log(pokemons[1].imageUrl);
     }
 
       //console.log(pokemons);
       // total items
       const totalPokemon = pokemons.length;
-      console.log(totalPokemon);
+      //console.log(totalPokemon);
 
       const startIndex = (pageNumber - 1) * pageSize;
       const endIndex = startIndex + pageSize;
       const pokemonPage = pokemons.slice(startIndex, endIndex);
       const totalPages = Math.ceil(totalPokemon / pageSize);
-      console.log(totalPages);
+      //console.log(totalPages);
 
       res.render("home", {
         pokemons: pokemonPage,
@@ -96,8 +93,8 @@ app.get('/pokemon-details/:id', async (req, res) => {
     try {
       const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${req.params.id}/`);
       const pokemon = response.data;
-      console.log(pokemon);
-      console.log(pokemon.sprites.front_default);
+      //console.log(pokemon);
+      //console.log(pokemon.sprites.front_default);
       
       res.render('template/pokemonDetails.ejs', {
         pokemon: pokemon});
