@@ -1,2 +1,10 @@
 [build]
-    functions = "functions"
+  functions = "functions" # Directory for Netlify to find your serverless functions
+
+[build.environment]
+  # Define environment variables here if needed
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server" # Adjust 'server' to match the name of your function file without the extension
+  status = 200
