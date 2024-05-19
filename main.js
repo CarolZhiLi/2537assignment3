@@ -1,12 +1,23 @@
 const express = require("express");
+const serverless = require("serverless-http");
 const app = express();
+const router = express.Router();
+
+
+
 const axios = require("axios");
 const port = process.env.PORT || 3000;
-
+router.get("/", (req, res) => {
+  res.send("App is running..");
+});
 app.set("view engine", "ejs");
+app.use("/.netlify/functions/app", router);
+
+
+
+
 
 const pageSize = 9;
-
 app.get("/", async (req, res) => {
   const pageNumber = parseInt(req.query.page) || 1;
   let selectedTypes = [];
@@ -109,3 +120,4 @@ app.use(express.static("public"));
 app.listen(port, () => {
   console.log("Node application listening on port " + port);
 });
+module.exports.handler = serverless(app);
