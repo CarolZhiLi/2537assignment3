@@ -4,6 +4,8 @@
 [functions]
   [functions."*"]
     timeout = 26  # Set the timeout for all functions
+    external_node_modules = ["express", "ejs"]
+    node_bundler = "esbuild"
 
 [build.environment]
   # Define environment variables here if needed
