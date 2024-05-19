@@ -1,6 +1,10 @@
 [build]
   functions = "functions" # Directory for Netlify to find your serverless functions
 
+[functions]
+  [functions."*"]
+    timeout = 26  # Set the timeout for all functions
+
 [build.environment]
   # Define environment variables here if needed
 
