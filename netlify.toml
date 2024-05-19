@@ -6,6 +6,7 @@
     timeout = 26  # Set the timeout for all functions
     external_node_modules = ["express", "ejs"]
     node_bundler = "esbuild"
+    included_files = ["views/*.*", "views/template/*.*"]
 
 [build.environment]
   # Define environment variables here if needed

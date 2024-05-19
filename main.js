@@ -6,8 +6,8 @@ const app = express();
 const axios = require("axios");
 const port = process.env.PORT || 3000;
 
+app.set("views", __dirname + "/../views");
 app.set("view engine", "ejs");
-
 
 const pageSize = 9;
 app.get("/", async (req, res) => {
